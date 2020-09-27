@@ -1,0 +1,10 @@
+PADDING_GAP=5
+
+yabai -m config layout bsp
+yabai -m config window_placement second_child
+
+yabai -m config top_padding    $PADDING_GAP
+yabai -m config bottom_padding $PADDING_GAP
+yabai -m config left_padding   $PADDING_GAP
+yabai -m config right_padding  $PADDING_GAP
+yabai -m config window_gap     $PADDING_GAP
