@@ -2,7 +2,7 @@ const childProcess = require("child_process");
 const util = require('util');
 
 const execRaw = util.promisify(childProcess.exec);
-const targetMode = 'laptop';
+const targetMode = process.env.TARGET_MODE || 'laptop';
 
 const config = {
   apps: [
@@ -110,11 +110,17 @@ async function startScript() {
     await execute(command);
   }
 
+  // Delete all empty spaces
+  const postSpaces = await queryYabai('-m query --spaces');
+  for (const postSpace of postSpaces.reverse()) {
+    if (postSpace.windows.length === 0) {
+      await execute(`yabai -m space ${postSpace.index} --destroy`);
+    }
+  }
 }
 
 
 // const getLapTopPlacement = (
-const spaceExist = (spaces, index) => spaces.length <= index;
 const createAddSpaceCommand = () => `yabai -m space --create`;
 const createMoveCommand = (window, targetSpace) => `yabai -m window ${window.id} --space ${targetSpace}`
 const getHighestUnmanaged = config => config.apps.map(appConfig => appConfig[targetMode]).sort().pop() + 1
